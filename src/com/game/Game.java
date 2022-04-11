@@ -6,7 +6,7 @@ import java.awt.image.BufferStrategy;
 public class Game extends Canvas implements Runnable {
 
     public static final int WIDTH = 640, HEIGHT = WIDTH / 12 * 9;
-    public static final int tileFieldWidth = 10, tileFieldHeight = 10;
+    public static final int tileFieldWidth = 50, tileFieldHeight = 50;
 
     private Thread thread;
     private boolean running = false;

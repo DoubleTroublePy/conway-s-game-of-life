@@ -16,9 +16,8 @@ class MyMouseListener implements MouseListener {
 
         int x = e.getX()/tileDim;
         int y = e.getY()/tileDim;
-        System.out.println(Integer.toString(x)+' '+Integer.toString(y));
-        field.setTile(x, y, true);
-//        field.setTile(x, y, !field.getTile(x, y));
+
+        field.setTile(x, y, !field.getTile(x, y));
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.game;
 
 import java.awt.*;
 import java.lang.reflect.Type;
+import java.net.PortUnreachableException;
 import java.sql.Time;
 import java.util.LinkedList;
 
@@ -36,23 +37,7 @@ public class Field{
     }
 
     public void tick() {
-        if (run && System.currentTimeMillis() - timer1 > 1000){
-            int ng;
-            for (int x = 0; x < field.size(); x++) {
-                for (int y = 0; y < field.size(); y++) {
-                    ng = neighbours(x, y, field);
 
-                    if (ng == 3) {
-                        field.get(x).set(x, true);
-                    } else if (ng > 3) {
-                        field.get(x).set(y, !field.get(x).get(y));
-                    } else if (ng < 3) {
-                        field.get(x).set(y, false);
-                    }
-                }
-                timer1 = System.currentTimeMillis();
-            }
-        }
     }
 
     public void render(Graphics g) {
@@ -62,6 +47,7 @@ public class Field{
                 tile.setAlive(field.get(tile.getIDx()).get(tile.getIDy()));
             }
         }
+        update();
     }
 
     private int neighbours(int x, int y, LinkedList<LinkedList<Boolean>> field) {
@@ -88,13 +74,50 @@ public class Field{
         return ng;
     }
 
-    public boolean getTile(int x, int y){
-        return field.get(x).get(y);
+    public void update(){
+        if (run && System.currentTimeMillis() - timer1 > 1000){
+            int ng;
+            for (int x = 0; x < field.size(); x++) {
+                for (int y = 0; y < field.size(); y++) {
+                    ng = neighbours(x, y, field);
+                    if (ng == 3) {
+                        field.get(x).set(y, true);
+                    } else if (ng > 3) {
+                        field.get(x).set(y, !field.get(x).get(y));
+                    } else if (ng < 2) {
+                        field.get(x).set(y, false);
+                    }
+                }
+            }
+            timer1 = System.currentTimeMillis();
+        }
     }
+
+    public void fieldReset() {
+        for (int x = 0; x < field.size(); x++) {
+            for (int y = 0; y < field.size(); y++) {
+                field.get(x).set(y, false);
+            }
+        }
+    }
+    public void fieldRnd() {
+
+        for (int x = 0; x < field.size(); x++) {
+            for (int y = 0; y < field.size(); y++) {
+                double rnd = Math.random();
+                System.out.println(rnd);
+                if (rnd > .9)
+                    field.get(x).set(y, true);
+            }
+        }
+    }
+
     public void setTile(int x, int y, boolean status) {
-        System.out.println(field.get(x));
         field.get(x).set(y, status);
 
+    }
+    public boolean getTile(int x, int y){
+        return field.get(x).get(y);
     }
     public void play_stop(){
         run = !run;

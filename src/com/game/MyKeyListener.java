@@ -20,9 +20,13 @@ class MyKeyListener implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyChar() == KeyEvent.VK_SPACE){
+        char key = e.getKeyChar();
+        if (key == KeyEvent.VK_SPACE)
             field.play_stop();
-        }
+        else if (key == 'r')
+            field.fieldRnd();
+        else if (key == 'c')
+            field.fieldReset();
     }
 
     @Override
