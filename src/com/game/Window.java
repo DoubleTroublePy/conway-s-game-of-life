@@ -1,4 +1,4 @@
-package com.game.main;
+package com.game;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,6 +13,7 @@ public class Window extends Canvas {
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
+        frame.setFocusable(true);
         frame.setLocationRelativeTo(null);
         frame.add(game);
         frame.setVisible(true);

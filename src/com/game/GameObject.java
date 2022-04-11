@@ -1,4 +1,4 @@
-package com.game.main;
+package com.game;
 
 import java.awt.*;
 
@@ -6,11 +6,13 @@ public abstract class GameObject {
 
     protected int x, y;
     protected ID id;
-    protected int velx, vely;
+    protected int height, width;
 
-    public GameObject(int x, int y, ID id){
+    public GameObject(int x, int y, int height, int width, ID id){
         this.x = x;
         this.y = y;
+        this.height = height;
+        this.width = width;
         this.id = id;
     }
 
@@ -36,16 +38,16 @@ public abstract class GameObject {
         return id;
     }
     public void setVelx(int velx) {
-        this.velx = velx;
+        this.height = velx;
     }
     public void setVely(int vely) {
-        this.vely = vely;
+        this.width = vely;
     }
     public int getVelx() {
-        return velx;
+        return height;
     }
     public int getVely() {
-        return vely;
+        return width;
     }
 
 }
