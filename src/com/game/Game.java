@@ -13,6 +13,7 @@ public class Game extends Canvas implements Runnable {
 
     private final Handler handler;
     private final Field field;
+    private final HUD hud;
 
     double interpolation = 0;
     final int TICKS_PER_SECOND = 1;
@@ -23,12 +24,15 @@ public class Game extends Canvas implements Runnable {
         handler = new Handler();
 
         field = new Field(0, 0, tileFieldWidth, tileFieldHeight, handler);
+        hud = new HUD();
 
         int magic = WIDTH / tileFieldWidth;
-        MyMouseListener mml = new MyMouseListener(field);
+
+        MyMouseListener mml = new MyMouseListener(field, hud);
         MyKeyListener mkl = new MyKeyListener(field);
 
         new Window(magic * tileFieldWidth, (HEIGHT / magic) * magic, "game", this);
+        this.requestFocus();
         this.addMouseListener(mml);
         this.addKeyListener(mkl);
     }
@@ -101,6 +105,7 @@ public class Game extends Canvas implements Runnable {
 
     private void tick(){
         handler.tick();
+        hud.tick();
         field.tick();
     }
 
@@ -116,6 +121,7 @@ public class Game extends Canvas implements Runnable {
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
         handler.render(g);
+        hud.render(g);
         field.render(g);
 
         g.dispose();

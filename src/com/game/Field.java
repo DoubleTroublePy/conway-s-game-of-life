@@ -17,7 +17,7 @@ public class Field{
     private Handler handler;
     private Game game;
 
-    private LinkedList<LinkedList<Boolean>> field = new LinkedList<LinkedList<Boolean>>();
+    private BoolLinkedList2D field = new BoolLinkedList2D();
 
     public Field(int x, int y, int width, int height, Handler handler) {
         sx = x;
@@ -50,7 +50,28 @@ public class Field{
         update();
     }
 
-    private int neighbours(int x, int y, LinkedList<LinkedList<Boolean>> field) {
+    public void update(){
+        if (run && System.currentTimeMillis() - timer1 > 500){
+            int ng;
+            BoolLinkedList2D tmpField= new BoolLinkedList2D();
+            tmpField.setAll(field);
+
+            for (int x = 0; x < field.size(); x++) {
+                for (int y = 0; y < field.get(x).size(); y++) {
+                    ng = neighbours(x, y, field);
+                    if (ng == 3 || (ng ==2 && field.get(x).get(y))) {
+                        tmpField.set(x, y, true);
+                    }else if (ng < 2 || ng > 3) {
+                        tmpField.set(x, y, false);
+                    }
+                }
+            }
+            field = tmpField;
+            timer1 = System.currentTimeMillis();
+        }
+    }
+
+    private int neighbours(int x, int y, final LinkedList<LinkedList<Boolean>> field) {
         int ng = 0;
         int[][] neighbor = {
                 {-1, 1},
@@ -74,25 +95,6 @@ public class Field{
         return ng;
     }
 
-    public void update(){
-        if (run && System.currentTimeMillis() - timer1 > 1000){
-            int ng;
-            for (int x = 0; x < field.size(); x++) {
-                for (int y = 0; y < field.size(); y++) {
-                    ng = neighbours(x, y, field);
-                    if (ng == 3) {
-                        field.get(x).set(y, true);
-                    } else if (ng > 3) {
-                        field.get(x).set(y, !field.get(x).get(y));
-                    } else if (ng < 2) {
-                        field.get(x).set(y, false);
-                    }
-                }
-            }
-            timer1 = System.currentTimeMillis();
-        }
-    }
-
     public void fieldReset() {
         for (int x = 0; x < field.size(); x++) {
             for (int y = 0; y < field.size(); y++) {
@@ -101,11 +103,9 @@ public class Field{
         }
     }
     public void fieldRnd() {
-
         for (int x = 0; x < field.size(); x++) {
             for (int y = 0; y < field.size(); y++) {
                 double rnd = Math.random();
-                System.out.println(rnd);
                 if (rnd > .9)
                     field.get(x).set(y, true);
             }
